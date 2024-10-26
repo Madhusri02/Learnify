@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import axios from 'axios';  // Import axios
+import axios from 'axios';
 
 const Login = () => {
+  const [name, setName] = useState('');
+  const [age, setAge] = useState('');
+  const [course, setCourse] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLogin, setIsLogin] = useState(true);
@@ -12,21 +15,32 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isLogin) {
-      console.log("Logging in with:", email, password);
-      // Implement your login logic here
-      // You can also create an API endpoint for login if needed
-      navigate('/dashboard'); // Redirect to the dashboard after successful login
+      try {
+        const response = await axios.post('http://localhost:5000/api/login', { email, password });
+        if (response.data.success) {
+          navigate('/dashboard', { state: { user: response.data.user } });
+        } else {
+          console.error(response.data.message);
+        }
+      } catch (error) {
+        console.error(error.response ? error.response.data : error.message);
+      }
     } else {
       try {
-        // Signup logic using Axios
         const response = await axios.post('http://localhost:5000/api/signup', {
+          name,
+          age,
+          course,
           email,
-          password,
+          password
         });
-        console.log(response.data.message); // Log success message
-        navigate('/dashboard'); // Redirect to the dashboard after successful signup
+        if (response.data.success) {
+          navigate('/dashboard', { state: { user: { name, age, course, email } } });
+        } else {
+          console.error(response.data.message);
+        }
       } catch (error) {
-        console.error("Signup failed:", error.response ? error.response.data : error.message);
+        console.error(error.response ? error.response.data : error.message);
       }
     }
   };
@@ -55,6 +69,43 @@ const Login = () => {
           </button>
         </div>
         <form onSubmit={handleSubmit}>
+          {!isLogin && (
+            <>
+              <div className="mb-4">
+                <label htmlFor="name" className="block text-sm mb-1">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="border rounded w-full p-2"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="age" className="block text-sm mb-1">Age</label>
+                <input
+                  type="number"
+                  id="age"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  className="border rounded w-full p-2"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="course" className="block text-sm mb-1">Course</label>
+                <input
+                  type="text"
+                  id="course"
+                  value={course}
+                  onChange={(e) => setCourse(e.target.value)}
+                  className="border rounded w-full p-2"
+                  required
+                />
+              </div>
+            </>
+          )}
           <div className="mb-4">
             <label htmlFor="loginEmail" className="block text-sm mb-1">Email</label>
             <input

@@ -1,0 +1,21 @@
+[
+  {
+    "email": "madhu@gmail.com",
+    "password": "123"
+  },
+  {
+    "email": "madhusri@gmail.com",
+    "password": "1234"
+  },
+  {
+    "name": "Sri",
+    "age": "19",
+    "course": "python",
+    "email": "ma@gmail.com",
+    "password": "12",
+    "performance": {
+      "score1": 39,
+      "score2": 71
+    }
+  }
+]

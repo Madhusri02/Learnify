@@ -5,6 +5,8 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Dashboard from './components/Dashboard';
 import './App.css';
+import Material from './components/Material';
+import Assignment from './components/Assignment';
 
 function App() {
   return (
@@ -13,7 +15,7 @@ function App() {
         <header>
           <nav className='flex justify-between items-center p-4 bg-white shadow-md'>
             <div id='logo' className='text-xl font-bold text-gray-800'>
-              Logo
+              Learnify
             </div>
             <div className='flex space-x-8 text-center'>
               <Link to="/" className='text-gray-700 hover:text-gray-900'>
@@ -35,6 +37,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/material" element={<Material />} />
+          <Route path="/assessment" element={<Assignment />} />
+          {/* <Rou */}
         </Routes>
       </div>
     </Router>
